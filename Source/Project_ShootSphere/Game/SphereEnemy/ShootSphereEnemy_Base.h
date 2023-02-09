@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ShootSphereEnemy_Base.generated.h"
 
@@ -22,6 +23,16 @@ protected:
 
 #pragma endregion
 
+#pragma region Components
+	
+protected:
+	UPROPERTY()
+	USceneComponent* SphereRootComponent;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* SphereStaticMesh;
+	UPROPERTY()
+	USphereComponent* SphereCollisionComponent;
 
+#pragma endregion
 
 };
