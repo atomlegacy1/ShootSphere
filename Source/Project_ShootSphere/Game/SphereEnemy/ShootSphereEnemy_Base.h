@@ -16,10 +16,6 @@ class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Base : public AActor
 	
 public:	
 	AShootSphereEnemy_Base();
-	virtual void Tick(float DeltaTime) override;
-
-protected:
-	virtual void BeginPlay() override;
 
 #pragma endregion
 

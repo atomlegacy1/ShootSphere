@@ -5,7 +5,7 @@
 
 AShootSphereEnemy_Base::AShootSphereEnemy_Base()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	SphereRootComponent = CreateDefaultSubobject<USceneComponent>(FName("Sphere root Component"));
 	SetRootComponent(SphereRootComponent);
@@ -15,16 +15,3 @@ AShootSphereEnemy_Base::AShootSphereEnemy_Base()
 	SphereCollisionComponent->SetupAttachment(SphereRootComponent);
 
 }
-
-void AShootSphereEnemy_Base::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-void AShootSphereEnemy_Base::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-

@@ -15,20 +15,33 @@ class PROJECT_SHOOTSPHERE_API ASphereEnemy_UpDown : public AShootSphereEnemy_Bas
 public:
 	UFUNCTION()
 	void MoveSphereUpDown();
+	UFUNCTION()
+	void MoveSphereUp();
+	UFUNCTION()
+	void MoveSphereDown();
+	UFUNCTION()
+	void RandomDirectionSelect();
+
+	ASphereEnemy_UpDown();
+	virtual void Tick(float DeltaSeconds) override;
+protected:
+	virtual void BeginPlay() override;
 
 #pragma endregion
 
 #pragma region Variables
 private:
 	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	float MaxMovingDistanceUp{0};
+	FVector MaxMovingDistanceUp{0,0,100};
 	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	float MaxMovingDistanceDown{0};
+	FVector MaxMovingDistanceDown{0,0,100};
+	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
+	FVector SphereMovingRate{0,0,2};
+	UPROPERTY()
+	bool isMovingUp{false};
 
-	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	float MinMovingDistanceUp{0};
-	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	float MinMovingDistanceDown{0};
+	UPROPERTY()
+	FVector SphereSpawnLocation;
 
 #pragma endregion
 	
