@@ -6,11 +6,15 @@
 ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 void ASphereEnemy_LeftRight::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	MaxMovingDistanceVector.Y=MaxMovingDistance;
+	SphereMovingRateVector.Y=SphereMovingRate;
 
 	SphereSpawnLocation = GetActorLocation();
 	RandomDirectionSelect();
@@ -19,44 +23,47 @@ void ASphereEnemy_LeftRight::BeginPlay()
 void ASphereEnemy_LeftRight::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	MoveSphereUpDown();
+	SphereMovingSlowDown();
+	MoveSphereLeftRight();
 }
 
-void ASphereEnemy_LeftRight::MoveSphereUpDown()
+void ASphereEnemy_LeftRight::MoveSphereLeftRight()
 {
-	switch (isMovingUp)
+	switch (isMovingLeft)
 	{
 	case true:
-		MoveSphereUp();
+		MoveSphereLeft();
 		break;
 	case false:
-		MoveSphereDown();
+		MoveSphereRight();
 		break;
 	}
 }
 
-void ASphereEnemy_LeftRight::MoveSphereUp()
+void ASphereEnemy_LeftRight::MoveSphereLeft()
 {
-	if (isMovingUp)
+	if (isMovingLeft)
 	{
-		SetActorLocation(GetActorLocation()+SphereMovingRate);
+		SetActorLocation(GetActorLocation()+SphereMovingRateVector);
 	}
-	if (GetActorLocation()==SphereSpawnLocation+MaxMovingDistanceUp)
+	if (GetActorLocation().Y>=SphereSpawnLocation.Y+MaxMovingDistanceVector.Y)
 	{
-		isMovingUp = false;
+		SphereMovingRateVector.Y = SphereMovingRate;
+		isMovingLeft = false;
 	}
 	
 }
 
-void ASphereEnemy_LeftRight::MoveSphereDown()
+void ASphereEnemy_LeftRight::MoveSphereRight()
 {
-	if (!isMovingUp)
+	if (!isMovingLeft)
 	{
-		SetActorLocation(GetActorLocation()-SphereMovingRate);
+		SetActorLocation(GetActorLocation()-SphereMovingRateVector);
 	}
-	if (GetActorLocation()==SphereSpawnLocation-MaxMovingDistanceUp)
+	if (GetActorLocation().Y<=SphereSpawnLocation.Y-MaxMovingDistanceVector.Y)
 	{
-		isMovingUp = true;
+		SphereMovingRateVector.Y = SphereMovingRate;
+		isMovingLeft = true;
 	}
 	
 }
@@ -67,11 +74,36 @@ void ASphereEnemy_LeftRight::RandomDirectionSelect()
 	switch (RandomDirection)
 	{
 	case 1 :
-		isMovingUp = true;
+		isMovingLeft = true;
 		break;
 	case 0:
-		isMovingUp = false;
+		isMovingLeft = false;
 		break;
 	default:;
 	}
+}
+ void ASphereEnemy_LeftRight::SphereMovingSlowDown()
+ {
+	 switch (isMovingLeft)
+	 {
+	 case true:
+		 if (GetActorLocation().Y>=SphereSpawnLocation.Y+MaxMovingDistanceVector.Y/2)
+		 {
+			 if (SphereMovingRateVector.Y >= SphereSlowingDownLimit)
+			 {
+				 SphereMovingRateVector.Y=SphereMovingRateVector.Y - SphereSlowingDownSpeed;
+			 }
+		 }
+	 	break;
+	 	
+	 case false:
+		 if (GetActorLocation().Y<=SphereSpawnLocation.Y-MaxMovingDistanceVector.Y/2)
+		 {
+		 	if (SphereMovingRateVector.Y >= SphereSlowingDownLimit)
+		 	{
+		 		SphereMovingRateVector.Y=SphereMovingRateVector.Y - SphereSlowingDownSpeed;
+		 	}
+		 }
+	 		break;
+	 }
 }

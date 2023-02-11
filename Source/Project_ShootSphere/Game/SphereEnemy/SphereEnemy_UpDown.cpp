@@ -1,4 +1,4 @@
-// AtomLegacy1 property
+ // AtomLegacy1 property
 
 
 #include "Project_ShootSphere/Game/SphereEnemy/SphereEnemy_UpDown.h"
@@ -12,6 +12,9 @@ ASphereEnemy_UpDown::ASphereEnemy_UpDown()
 void ASphereEnemy_UpDown::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	MaxMovingDistanceVector.Z=MaxMovingDistance;
+	SphereMovingRateVector.Z=SphereMovingRate;
 
 	SphereSpawnLocation = GetActorLocation();
 	RandomDirectionSelect();
@@ -20,6 +23,7 @@ void ASphereEnemy_UpDown::BeginPlay()
 void ASphereEnemy_UpDown::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	SphereMovingSlowDown();
 	MoveSphereUpDown();
 }
 
@@ -40,10 +44,11 @@ void ASphereEnemy_UpDown::MoveSphereUp()
 {
 	if (isMovingUp)
 	{
-		SetActorLocation(GetActorLocation()+SphereMovingRate);
+		SetActorLocation(GetActorLocation()+SphereMovingRateVector);
 	}
-	if (GetActorLocation()==SphereSpawnLocation+MaxMovingDistanceUp)
+	if (GetActorLocation().Z>=SphereSpawnLocation.Z+MaxMovingDistanceVector.Z)
 	{
+		SphereMovingRateVector.Z = SphereMovingRate;
 		isMovingUp = false;
 	}
 	
@@ -53,10 +58,11 @@ void ASphereEnemy_UpDown::MoveSphereDown()
 {
 	if (!isMovingUp)
 	{
-		SetActorLocation(GetActorLocation()-SphereMovingRate);
+		SetActorLocation(GetActorLocation()-SphereMovingRateVector);
 	}
-	if (GetActorLocation()==SphereSpawnLocation-MaxMovingDistanceUp)
+	if (GetActorLocation().Z<=SphereSpawnLocation.Z-MaxMovingDistanceVector.Z)
 	{
+		SphereMovingRateVector.Z = SphereMovingRate;
 		isMovingUp = true;
 	}
 	
@@ -76,3 +82,28 @@ void ASphereEnemy_UpDown::RandomDirectionSelect()
 	default:;
 	}
 }
+ void ASphereEnemy_UpDown::SphereMovingSlowDown()
+ {
+	 switch (isMovingUp)
+	 {
+	 case true:
+		 if (GetActorLocation().Z>=SphereSpawnLocation.Z+MaxMovingDistanceVector.Z/2)
+		 {
+			 if (SphereMovingRateVector.Z >= SphereSlowingDownLimit)
+			 {
+				 SphereMovingRateVector.Z=SphereMovingRateVector.Z - SphereSlowingDownSpeed;
+			 }
+		 }
+	 	break;
+	 	
+	 case false:
+		 if (GetActorLocation().Z<=SphereSpawnLocation.Z-MaxMovingDistanceVector.Z/2)
+		 {
+		 	if (SphereMovingRateVector.Z >= SphereSlowingDownLimit)
+		 	{
+		 		SphereMovingRateVector.Z=SphereMovingRateVector.Z - SphereSlowingDownSpeed;
+		 	}
+		 }
+	 		break;
+	 }
+ }

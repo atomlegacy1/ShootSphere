@@ -6,7 +6,8 @@
 #include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Base.h"
 #include "SphereEnemy_LeftRight.generated.h"
 
-UCLASS()
+UCLASS(HideCategories = ("Rendering","Replication","Collision","Advanced","HLOD","Physics",
+"Networking","WorldPartition","Input","Actor","Cooking","DataLayers"))
 class PROJECT_SHOOTSPHERE_API ASphereEnemy_LeftRight : public AShootSphereEnemy_Base
 {
 	GENERATED_BODY()
@@ -14,13 +15,15 @@ class PROJECT_SHOOTSPHERE_API ASphereEnemy_LeftRight : public AShootSphereEnemy_
 #pragma region Action
 public:
 	UFUNCTION()
-	void MoveSphereUpDown();
+	void MoveSphereLeftRight();
 	UFUNCTION()
-	void MoveSphereUp();
+	void MoveSphereLeft();
 	UFUNCTION()
-	void MoveSphereDown();
+	void MoveSphereRight();
 	UFUNCTION()
 	void RandomDirectionSelect();
+	UFUNCTION()
+	void SphereMovingSlowDown();
 
 	ASphereEnemy_LeftRight();
 	virtual void Tick(float DeltaSeconds) override;
@@ -31,17 +34,22 @@ protected:
 
 #pragma region Variables
 private:
-	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	FVector MaxMovingDistanceUp{0,100,0};
-	UPROPERTY(EditAnywhere,Category = "Sphere Settings")
-	FVector MaxMovingDistanceDown{0,100,0};
-	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
-	FVector SphereMovingRate{0,2,0};
 	UPROPERTY()
-	bool isMovingUp{false};
-
+	FVector MaxMovingDistanceVector{0,0,0};
 	UPROPERTY()
-	FVector SphereSpawnLocation;
+	FVector SphereMovingRateVector{0,0,0};
+	UPROPERTY()
+	FVector SphereSpawnLocation{0,0,0};
+	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
+	float SphereMovingRate{2};
+	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
+	float MaxMovingDistance{200};
+	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
+	float SphereSlowingDownSpeed{0.25};
+	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
+	float SphereSlowingDownLimit{1};
+	UPROPERTY()
+	bool isMovingLeft{false};
 
 #pragma endregion
 	
