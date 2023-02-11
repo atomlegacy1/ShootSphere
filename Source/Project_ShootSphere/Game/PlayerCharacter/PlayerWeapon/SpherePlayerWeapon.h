@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/ArrowComponent.h"
 #include "GameFramework/Actor.h"
 #include "SpherePlayerWeapon.generated.h"
 
@@ -22,4 +23,17 @@ protected:
 
 #pragma endregion
 
+#pragma region Components
+
+	UPROPERTY(EditDefaultsOnly)
+	USceneComponent* WeaponSceneRoot;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponBase;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponLights;
+	UPROPERTY(EditDefaultsOnly)
+	UArrowComponent* WeaponDirection;
+
+#pragma endregion
+	
 };
