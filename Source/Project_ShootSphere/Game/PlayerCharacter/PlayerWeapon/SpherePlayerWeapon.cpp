@@ -14,21 +14,41 @@ ASpherePlayerWeapon::ASpherePlayerWeapon()
 	WeaponBase->SetupAttachment(WeaponSceneRoot);
 
 	WeaponLights = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerWeapon Lights component"));
-	WeaponLights->SetupAttachment(WeaponBase);
+	WeaponLights->SetupAttachment(WeaponSceneRoot);
 
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
+	WeaponDirection->SetupAttachment(WeaponSceneRoot);
 
 }
 
 void ASpherePlayerWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	WeaponShoot();
 }
 
 void ASpherePlayerWeapon::Tick(float DeltaTime)
-{
+{	
+
 	Super::Tick(DeltaTime);
 
 }
 
+void ASpherePlayerWeapon::WeaponShoot()
+{
+	if (GetOwner())
+	{
+		FActorSpawnParameters ActorSpawnParams;
+		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(ProjectileToSpawn,WeaponDirection->GetComponentLocation(),
+		WeaponDirection->GetComponentRotation(),ActorSpawnParams);
+	}
+}
+
+void ASpherePlayerWeapon::WeaponReload()
+{
+	if (WeaponCurrentAmmo<WeaponMaxAmmo)
+	{
+		//Нужно добавить анимацию перезарядки как-то вот сюда 
+		WeaponCurrentAmmo = WeaponMaxAmmo;
+	}
+}
