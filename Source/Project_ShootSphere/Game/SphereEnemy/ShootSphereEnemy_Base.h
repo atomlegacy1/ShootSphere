@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "ShootSphereEnemy_Base.generated.h"
 
@@ -15,13 +16,19 @@ class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Base : public AActor
 	
 public:	
 	AShootSphereEnemy_Base();
-	virtual void Tick(float DeltaTime) override;
-
-protected:
-	virtual void BeginPlay() override;
 
 #pragma endregion
 
+#pragma region Components
+	
+protected:
+	UPROPERTY()
+	USceneComponent* SphereRootComponent;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* SphereStaticMesh;
+	UPROPERTY()
+	USphereComponent* SphereCollisionComponent;
 
+#pragma endregion
 
 };
