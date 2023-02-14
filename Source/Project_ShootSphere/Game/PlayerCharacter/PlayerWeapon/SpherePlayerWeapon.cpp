@@ -5,7 +5,7 @@
 
 ASpherePlayerWeapon::ASpherePlayerWeapon()
 {
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	WeaponSceneRoot = CreateDefaultSubobject<USceneComponent>(FName("PlayerWeapon Root Component"));
 	SetRootComponent(WeaponSceneRoot);
@@ -25,13 +25,6 @@ void ASpherePlayerWeapon::BeginPlay()
 {
 	Super::BeginPlay();
 	WeaponShoot();
-}
-
-void ASpherePlayerWeapon::Tick(float DeltaTime)
-{	
-
-	Super::Tick(DeltaTime);
-
 }
 
 void ASpherePlayerWeapon::WeaponShoot()

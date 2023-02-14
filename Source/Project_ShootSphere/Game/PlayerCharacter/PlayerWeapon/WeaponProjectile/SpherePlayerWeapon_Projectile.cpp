@@ -15,6 +15,4 @@ ASpherePlayerWeapon_Projectile::ASpherePlayerWeapon_Projectile()
 	ProjectileCollision = CreateDefaultSubobject<USphereComponent>(FName("Projectile Collision"));
 	ProjectileCollision->SetupAttachment(ProjectileRoot);
 	ProjectileMoveComponent = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement Component"));
-
 }
-

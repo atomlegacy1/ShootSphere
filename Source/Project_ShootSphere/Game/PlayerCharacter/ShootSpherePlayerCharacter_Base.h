@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "ShootSpherePlayerCharacter_Base.generated.h"
 
 UCLASS()
@@ -22,7 +24,30 @@ protected:
 	virtual void BeginPlay() override;
 
 #pragma endregion
+
+#pragma region Components
 	
+private:
+	UPROPERTY(EditDefaultsOnly)
+	USpringArmComponent* CharacterSpringArm;
+	UPROPERTY(EditDefaultsOnly)
+	UCameraComponent* CharacterCameraComponent;
 
+#pragma endregion
 
+#pragma region Action
+	
+public:
+	UFUNCTION()
+	void CharacterMoveForward(float Value);
+	UFUNCTION()
+	void CharacterMoveRight(float Value);
+	
+	UFUNCTION()
+	void CharacterJump();
+	UFUNCTION()
+	void CharacterDash();
+
+#pragma endregion 
+	
 };

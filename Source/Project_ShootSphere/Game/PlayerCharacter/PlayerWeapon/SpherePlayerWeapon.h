@@ -17,7 +17,6 @@ class PROJECT_SHOOTSPHERE_API ASpherePlayerWeapon : public AActor
 	
 public:	
 	ASpherePlayerWeapon();
-	virtual void Tick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
