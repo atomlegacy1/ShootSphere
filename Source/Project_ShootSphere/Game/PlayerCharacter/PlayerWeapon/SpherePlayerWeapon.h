@@ -31,7 +31,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* WeaponBase;
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* WeaponLights;
+	UStaticMeshComponent* WeaponLanterns;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponRightLight;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponLeftLight;
 	UPROPERTY(EditDefaultsOnly)
 	UArrowComponent* WeaponDirection;
 

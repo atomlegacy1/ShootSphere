@@ -13,11 +13,16 @@ ASpherePlayerWeapon::ASpherePlayerWeapon()
 	WeaponBase = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerWeapon Base component"));
 	WeaponBase->SetupAttachment(WeaponSceneRoot);
 
-	WeaponLights = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerWeapon Lights component"));
-	WeaponLights->SetupAttachment(WeaponSceneRoot);
+	WeaponLanterns = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerWeapon Lights component"));
+	WeaponLanterns->SetupAttachment(WeaponSceneRoot);
 
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
 	WeaponDirection->SetupAttachment(WeaponSceneRoot);
+
+	WeaponLeftLight = CreateDefaultSubobject<UStaticMeshComponent>(FName("Left light Mesh"));
+	WeaponLeftLight->SetupAttachment(WeaponSceneRoot);
+	WeaponRightLight = CreateDefaultSubobject<UStaticMeshComponent>(FName("Right light mesh"));
+	WeaponRightLight->SetupAttachment(WeaponSceneRoot);
 
 }
 
@@ -41,7 +46,6 @@ void ASpherePlayerWeapon::WeaponReload()
 {
 	if (WeaponCurrentAmmo<WeaponMaxAmmo)
 	{
-		//Нужно добавить анимацию перезарядки как-то вот сюда 
 		WeaponCurrentAmmo = WeaponMaxAmmo;
 	}
 }

@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "PlayerWeapon/SpherePlayerWeapon.h"
 #include "ShootSpherePlayerCharacter_Base.generated.h"
 
 UCLASS()
@@ -27,8 +28,8 @@ protected:
 
 #pragma region Components
 	
-private:
-	UPROPERTY(EditDefaultsOnly)
+protected:
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
 	USpringArmComponent* CharacterSpringArm;
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* CharacterCameraComponent;
@@ -47,7 +48,20 @@ public:
 	void CharacterJump();
 	UFUNCTION()
 	void CharacterDash();
+	UFUNCTION()
+	void CharacterWeaponReload();
 
-#pragma endregion 
+#pragma endregion
+
+#pragma region Variables
+
+	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+	TSubclassOf<ASpherePlayerWeapon> WeaponToSpawn;
+	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+	int32 DashAmount{4};
+	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+	float DashSpeed{4};
+
+#pragma endregion
 	
 };
