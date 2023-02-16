@@ -51,7 +51,7 @@ public:
 	UFUNCTION()
 	void CharacterWeaponReload();
 	UFUNCTION()
-	void Dash();
+	void DashStop();
 
 #pragma endregion
 
@@ -63,7 +63,7 @@ private:
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	int32 DashAmount{40};
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
-	float DashRange{5000};
+	float DashRange{4000};
 #pragma endregion
 	
 };

@@ -62,17 +62,21 @@ void AShootSpherePlayerCharacter_Base::CharacterDash()
 	if (GetMovementComponent()->Velocity.Size()==0) return;
 	if (DashAmount>0)
 	{
-		switch (GetMovementComponent()->IsFalling())
+		FTimerHandle TimerHandleTemp;
+		if (GetCharacterMovement()->IsFalling())
 		{
-		case true:
 			GetCharacterMovement()->GravityScale = 0;
-			FTimerHandle TimerHandleTemp;
-			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::Dash,0.2f,false,0.0);
-			//таймер блять
-			break;
-		case false:
-			Dash();
-			break;
+			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
+			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
+			DashAmount--;
+
+		}
+		else
+		{
+			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
+			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
+			DashAmount--;
+
 		}
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DashAmount: %i "),DashAmount));
@@ -83,8 +87,8 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 	//Нужна анимация
 	
 }
-void AShootSpherePlayerCharacter_Base::Dash()
+void AShootSpherePlayerCharacter_Base::DashStop()
 {
-	LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-	DashAmount--;
+	GetCharacterMovement()->GravityScale = 1;
+	GetCharacterMovement()->StopMovementImmediately();
 }
