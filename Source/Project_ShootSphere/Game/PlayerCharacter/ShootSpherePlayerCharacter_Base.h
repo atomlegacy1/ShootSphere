@@ -50,18 +50,20 @@ public:
 	void CharacterDash();
 	UFUNCTION()
 	void CharacterWeaponReload();
+	UFUNCTION()
+	void Dash();
 
 #pragma endregion
 
 #pragma region Variables
 
+private:
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	TSubclassOf<ASpherePlayerWeapon> WeaponToSpawn;
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
-	int32 DashAmount{4};
+	int32 DashAmount{40};
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
-	float DashSpeed{4};
-
+	float DashRange{5000};
 #pragma endregion
 	
 };

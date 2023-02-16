@@ -3,6 +3,10 @@
 
 #include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 
+#include "Debug/ReporterBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PawnMovementComponent.h"
+
 AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -40,14 +44,12 @@ void AShootSpherePlayerCharacter_Base::SetupPlayerInputComponent(UInputComponent
 
 void AShootSpherePlayerCharacter_Base::CharacterMoveForward(float Value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
-	AddMovementInput(Direction, Value);
+	AddMovementInput(GetActorForwardVector(), Value);
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterMoveRight(float Value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
-	AddMovementInput(Direction, Value);
+	AddMovementInput(GetActorRightVector(), Value);
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterJump()
@@ -57,15 +59,32 @@ void AShootSpherePlayerCharacter_Base::CharacterJump()
 
 void AShootSpherePlayerCharacter_Base::CharacterDash()
 {
+	if (GetMovementComponent()->Velocity.Size()==0) return;
 	if (DashAmount>0)
 	{
-		LaunchCharacter(GetActorForwardVector() * DashSpeed,false,false);
-		DashAmount--;
+		switch (GetMovementComponent()->IsFalling())
+		{
+		case true:
+			GetCharacterMovement()->GravityScale = 0;
+			FTimerHandle TimerHandleTemp;
+			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::Dash,0.2f,false,0.0);
+			//таймер блять
+			break;
+		case false:
+			Dash();
+			break;
+		}
 	}
+	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DashAmount: %i "),DashAmount));
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 {
 	//Нужна анимация
 	
+}
+void AShootSpherePlayerCharacter_Base::Dash()
+{
+	LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
+	DashAmount--;
 }
