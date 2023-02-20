@@ -19,7 +19,7 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
-	//SpawnWeapon();
+	SpawnWeapon();
 }
 
 void AShootSpherePlayerCharacter_Base::Tick(float DeltaTime)
