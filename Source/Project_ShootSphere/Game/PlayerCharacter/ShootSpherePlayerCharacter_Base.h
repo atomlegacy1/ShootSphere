@@ -1,4 +1,4 @@
-// AtomLegacy1 property
+	// AtomLegacy1 property
 
 #pragma once
 
@@ -51,7 +51,11 @@ public:
 	UFUNCTION()
 	void CharacterWeaponReload();
 	UFUNCTION()
+	void CharacterWeaponShoot();
+	UFUNCTION()
 	void DashStop();
+	UFUNCTION()
+	void SpawnWeapon();
 
 #pragma endregion
 

@@ -19,6 +19,7 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
+	//SpawnWeapon();
 }
 
 void AShootSpherePlayerCharacter_Base::Tick(float DeltaTime)
@@ -39,6 +40,7 @@ void AShootSpherePlayerCharacter_Base::SetupPlayerInputComponent(UInputComponent
 	PlayerInputComponent->BindAction(TEXT("Jump"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterJump);
 	PlayerInputComponent->BindAction(TEXT("Dash"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterDash);
 	PlayerInputComponent->BindAction(TEXT("Reload"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponReload);
+	PlayerInputComponent->BindAction(TEXT("WeaponShoot"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponShoot);
 	
 }
 
@@ -87,8 +89,20 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 	//Нужна анимация
 	
 }
+
+void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
+{
+	
+}
+
 void AShootSpherePlayerCharacter_Base::DashStop()
 {
 	GetCharacterMovement()->GravityScale = 1;
 	GetCharacterMovement()->StopMovementImmediately();
+}
+void AShootSpherePlayerCharacter_Base::SpawnWeapon()
+{
+	FActorSpawnParameters ActorSpawnParams;
+	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,GetActorLocation(),GetActorRotation(),ActorSpawnParams)
+	->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale,"SocketTest");
 }
