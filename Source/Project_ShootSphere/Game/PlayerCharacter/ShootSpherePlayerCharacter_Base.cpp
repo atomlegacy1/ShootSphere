@@ -103,6 +103,7 @@ void AShootSpherePlayerCharacter_Base::DashStop()
 void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 {
 	FActorSpawnParameters ActorSpawnParams;
-	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,GetActorLocation(),GetActorRotation(),ActorSpawnParams)
-	->AttachToActor(this,FAttachmentTransformRules::SnapToTargetIncludingScale,"SocketTest");
+	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
+	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
+	->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform);
 }
