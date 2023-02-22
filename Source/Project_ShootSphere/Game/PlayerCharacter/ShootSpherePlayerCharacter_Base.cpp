@@ -105,5 +105,5 @@ void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 	FActorSpawnParameters ActorSpawnParams;
 	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
 	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
-	->AttachToActor(this,FAttachmentTransformRules::KeepWorldTransform);
+	->AttachToActor(this,FAttachmentTransformRules::KeepRelativeTransform);
 }

@@ -68,6 +68,9 @@ private:
 	int32 DashAmount{40};
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	float DashRange{4000};
+	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+	int32 CharacterCurrentHealth{0};
+	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+	int32 CharacterMaxHealth{100};
 #pragma endregion
-	
 };
