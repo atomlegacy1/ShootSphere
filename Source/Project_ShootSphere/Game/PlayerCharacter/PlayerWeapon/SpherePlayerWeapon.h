@@ -31,7 +31,11 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* WeaponBase;
 	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* WeaponLights;
+	UStaticMeshComponent* WeaponLanterns;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponRightLight;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponLeftLight;
 	UPROPERTY(EditDefaultsOnly)
 	UArrowComponent* WeaponDirection;
 
@@ -41,9 +45,9 @@ protected:
 	
 private:
 	UPROPERTY(EditDefaultsOnly,Category = "WeaponSettings")
-	int32 WeaponMaxAmmo{0};
+	int32 WeaponMaxAmmo{30};
 	UPROPERTY()
-	int32 WeaponCurrentAmmo;
+	int32 WeaponCurrentAmmo{0};
 	UPROPERTY(EditDefaultsOnly,Category = "WeaponSettings")
 	TSubclassOf<ASpherePlayerWeapon_Projectile> ProjectileToSpawn;
 
