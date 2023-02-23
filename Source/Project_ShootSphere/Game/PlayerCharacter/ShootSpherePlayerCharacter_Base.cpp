@@ -2,10 +2,11 @@
 
 
 #include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
-
+#include "Components/ArrowComponent.h"
 #include "Debug/ReporterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "Project_ShootSphere/Project_ShootSphereCharacter.h"
 
 AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 {
@@ -13,12 +14,15 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 
 	CharacterSpringArm = CreateDefaultSubobject<USpringArmComponent>(FName("Camera spring arm"));
 	CharacterCameraComponent = CreateDefaultSubobject<UCameraComponent>(FName("Character following camera"));
-	CharacterCameraComponent ->SetupAttachment(CharacterSpringArm);
+	CharacterCameraComponent->SetupAttachment(CharacterSpringArm);
+	CharacterSpringArm->SetupAttachment(GetMesh());
+	
 }
 
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
+	WeaponCurrentAmmo = WeaponMaxAmmo;
 	SpawnWeapon();
 }
 
@@ -84,26 +88,37 @@ void AShootSpherePlayerCharacter_Base::CharacterDash()
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DashAmount: %i "),DashAmount));
 }
 
-void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
-{
-	//Нужна анимация
-	
-}
-
-void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
-{
-	
-}
-
 void AShootSpherePlayerCharacter_Base::DashStop()
 {
 	GetCharacterMovement()->GravityScale = 1;
 	GetCharacterMovement()->StopMovementImmediately();
 }
+
+void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
+{
+	if (WeaponCurrentAmmo<WeaponMaxAmmo)
+	{
+		//Нужна анимация
+		WeaponCurrentAmmo = WeaponMaxAmmo;
+	}
+}
+
+void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
+{
+	if (WeaponCurrentAmmo!=0)
+	{
+		WeaponCurrentAmmo--;
+		FActorSpawnParameters SpawnParams;
+		//FVector ProjSpawnLocation ;
+		//GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile)->SetActorLocation(ProjSpawnLocation);
+	}
+}
+
 void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 {
 	FActorSpawnParameters ActorSpawnParams;
 	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
 	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
-	->AttachToActor(this,FAttachmentTransformRules::KeepRelativeTransform);
+	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 }
+

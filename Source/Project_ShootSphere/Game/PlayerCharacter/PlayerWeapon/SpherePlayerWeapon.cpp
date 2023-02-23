@@ -25,27 +25,3 @@ ASpherePlayerWeapon::ASpherePlayerWeapon()
 	WeaponRightLight->SetupAttachment(WeaponSceneRoot);
 
 }
-
-void ASpherePlayerWeapon::BeginPlay()
-{
-	Super::BeginPlay();
-	WeaponShoot();
-}
-
-void ASpherePlayerWeapon::WeaponShoot()
-{
-	if (GetOwner())
-	{
-		FActorSpawnParameters ActorSpawnParams;
-		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(ProjectileToSpawn,WeaponDirection->GetComponentLocation(),
-		WeaponDirection->GetComponentRotation(),ActorSpawnParams);
-	}
-}
-
-void ASpherePlayerWeapon::WeaponReload()
-{
-	if (WeaponCurrentAmmo<WeaponMaxAmmo)
-	{
-		WeaponCurrentAmmo = WeaponMaxAmmo;
-	}
-}

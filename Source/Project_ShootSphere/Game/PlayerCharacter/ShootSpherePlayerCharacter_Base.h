@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "PlayerWeapon/SpherePlayerWeapon.h"
+#include "Project_ShootSphere/Game/PlayerCharacter/PlayerWeapon/WeaponProjectile/SpherePlayerWeapon_Projectile.h"
 #include "ShootSpherePlayerCharacter_Base.generated.h"
 
 UCLASS()
@@ -43,17 +44,19 @@ public:
 	void CharacterMoveForward(float Value);
 	UFUNCTION()
 	void CharacterMoveRight(float Value);
-	
 	UFUNCTION()
 	void CharacterJump();
+
 	UFUNCTION()
 	void CharacterDash();
+	UFUNCTION()
+	void DashStop();
+
 	UFUNCTION()
 	void CharacterWeaponReload();
 	UFUNCTION()
 	void CharacterWeaponShoot();
-	UFUNCTION()
-	void DashStop();
+
 	UFUNCTION()
 	void SpawnWeapon();
 
@@ -61,16 +64,25 @@ public:
 
 #pragma region Variables
 
-private:
-	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
+protected:
+	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
 	TSubclassOf<ASpherePlayerWeapon> WeaponToSpawn;
+	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
+	TSubclassOf<ASpherePlayerWeapon_Projectile> WeaponProjectile;
+	UPROPERTY(EditDefaultsOnly,Category= "Character weapon settings")
+	int32 WeaponCurrentAmmo{0};
+	UPROPERTY(EditDefaultsOnly,Category= "Character weapon settings")
+	int32 WeaponMaxAmmo{30};
+	
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	int32 DashAmount{40};
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	float DashRange{4000};
+
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	int32 CharacterCurrentHealth{0};
 	UPROPERTY(EditDefaultsOnly,Category = "Character settings")
 	int32 CharacterMaxHealth{100};
+
 #pragma endregion
 };
