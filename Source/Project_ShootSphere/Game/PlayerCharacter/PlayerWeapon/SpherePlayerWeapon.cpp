@@ -16,9 +16,6 @@ ASpherePlayerWeapon::ASpherePlayerWeapon()
 	WeaponLanterns = CreateDefaultSubobject<UStaticMeshComponent>(FName("PlayerWeapon Lights component"));
 	WeaponLanterns->SetupAttachment(WeaponSceneRoot);
 
-	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
-	WeaponDirection->SetupAttachment(WeaponSceneRoot);
-
 	WeaponLeftLight = CreateDefaultSubobject<UStaticMeshComponent>(FName("Left light Mesh"));
 	WeaponLeftLight->SetupAttachment(WeaponSceneRoot);
 	WeaponRightLight = CreateDefaultSubobject<UStaticMeshComponent>(FName("Right light mesh"));

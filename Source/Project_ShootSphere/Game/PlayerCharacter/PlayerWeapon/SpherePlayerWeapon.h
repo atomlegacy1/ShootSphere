@@ -32,9 +32,6 @@ protected:
 	UStaticMeshComponent* WeaponRightLight;
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* WeaponLeftLight;
-public:
-	UPROPERTY(EditDefaultsOnly)
-	UArrowComponent* WeaponDirection;
 
 #pragma endregion
 	

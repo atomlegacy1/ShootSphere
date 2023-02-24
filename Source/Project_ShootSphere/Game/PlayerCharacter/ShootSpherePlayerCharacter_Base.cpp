@@ -16,6 +16,7 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 	CharacterCameraComponent = CreateDefaultSubobject<UCameraComponent>(FName("Character following camera"));
 	CharacterCameraComponent->SetupAttachment(CharacterSpringArm);
 	CharacterSpringArm->SetupAttachment(GetMesh());
+	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
 	
 }
 
@@ -23,6 +24,7 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
 	WeaponCurrentAmmo = WeaponMaxAmmo;
+	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 	SpawnWeapon();
 }
 
@@ -109,8 +111,7 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 	{
 		WeaponCurrentAmmo--;
 		FActorSpawnParameters SpawnParams;
-		//FVector ProjSpawnLocation ;
-		//GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile)->SetActorLocation(ProjSpawnLocation);
+		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile,WeaponDirection->GetComponentTransform(),SpawnParams);
 	}
 }
 

@@ -34,6 +34,8 @@ protected:
 	USpringArmComponent* CharacterSpringArm;
 	UPROPERTY(EditDefaultsOnly)
 	UCameraComponent* CharacterCameraComponent;
+	UPROPERTY(EditDefaultsOnly)
+	UArrowComponent* WeaponDirection;
 
 #pragma endregion
 
