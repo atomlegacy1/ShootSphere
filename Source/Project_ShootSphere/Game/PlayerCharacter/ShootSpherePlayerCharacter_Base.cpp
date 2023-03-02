@@ -87,7 +87,6 @@ void AShootSpherePlayerCharacter_Base::CharacterDash()
 
 		}
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("DashAmount: %i "),DashAmount));
 }
 
 void AShootSpherePlayerCharacter_Base::DashStop()

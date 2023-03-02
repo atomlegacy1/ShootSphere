@@ -6,7 +6,7 @@
 ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
+	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ASphereEnemy_LeftRight::OverlapBegin);
 }
 
 void ASphereEnemy_LeftRight::BeginPlay()
@@ -39,7 +39,6 @@ void ASphereEnemy_LeftRight::MoveSphereLeftRight()
 		break;
 	}
 }
-
 void ASphereEnemy_LeftRight::MoveSphereLeft()
 {
 	if (isMovingLeft)
@@ -53,7 +52,6 @@ void ASphereEnemy_LeftRight::MoveSphereLeft()
 	}
 	
 }
-
 void ASphereEnemy_LeftRight::MoveSphereRight()
 {
 	if (!isMovingLeft)
@@ -67,7 +65,6 @@ void ASphereEnemy_LeftRight::MoveSphereRight()
 	}
 	
 }
-
 void ASphereEnemy_LeftRight::RandomDirectionSelect()
 {
 	int32 RandomDirection = FMath::RandRange(0,1);
@@ -82,7 +79,7 @@ void ASphereEnemy_LeftRight::RandomDirectionSelect()
 	default:;
 	}
 }
- void ASphereEnemy_LeftRight::SphereMovingSlowDown()
+void ASphereEnemy_LeftRight::SphereMovingSlowDown()
  {
 	 switch (isMovingLeft)
 	 {
@@ -106,4 +103,13 @@ void ASphereEnemy_LeftRight::RandomDirectionSelect()
 		 }
 	 		break;
 	 }
+}
+
+void ASphereEnemy_LeftRight::OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if ((OtherActor!=this) && (OtherActor!=nullptr) && (OtherComp != nullptr))
+	{
+		Destroy();
+	}
 }

@@ -30,5 +30,5 @@ protected:
 	USphereComponent* SphereCollisionComponent;
 
 #pragma endregion
-
+	
 };

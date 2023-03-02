@@ -13,5 +13,7 @@ AShootSphereEnemy_Base::AShootSphereEnemy_Base()
 	SphereStaticMesh->SetupAttachment(SphereRootComponent);
 	SphereCollisionComponent = CreateDefaultSubobject<USphereComponent>(FName("Sphere Collision Component"));
 	SphereCollisionComponent->SetupAttachment(SphereRootComponent);
+	SphereCollisionComponent->SetCollisionProfileName("Trigger");
+	SphereCollisionComponent->SetSphereRadius(50);
 
 }
