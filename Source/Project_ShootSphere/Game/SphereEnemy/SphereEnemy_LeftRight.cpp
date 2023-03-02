@@ -6,7 +6,9 @@
 ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this, &ASphereEnemy_LeftRight::OverlapBegin);
+	SphereCollisionComponent->SetSphereRadius(100);
+	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
+		&ThisClass::GivePointsByOverlap);
 }
 
 void ASphereEnemy_LeftRight::BeginPlay()
@@ -26,7 +28,6 @@ void ASphereEnemy_LeftRight::Tick(float DeltaSeconds)
 	SphereMovingSlowDown();
 	MoveSphereLeftRight();
 }
-
 void ASphereEnemy_LeftRight::MoveSphereLeftRight()
 {
 	switch (isMovingLeft)
@@ -105,11 +106,8 @@ void ASphereEnemy_LeftRight::SphereMovingSlowDown()
 	 }
 }
 
-void ASphereEnemy_LeftRight::OverlapBegin(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp,int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+void ASphereEnemy_LeftRight::GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if ((OtherActor!=this) && (OtherActor!=nullptr) && (OtherComp != nullptr))
-	{
-		Destroy();
-	}
+	Destroy();
 }
