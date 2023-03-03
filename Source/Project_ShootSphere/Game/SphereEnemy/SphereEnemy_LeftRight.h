@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 #include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Base.h"
 #include "SphereEnemy_LeftRight.generated.h"
 
@@ -54,6 +55,9 @@ private:
 	float SphereSlowingDownLimit{1};
 	UPROPERTY()
 	bool isMovingLeft{false};
+
+	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
+	int32 SpherePoints {0};
 
 #pragma endregion
 	

@@ -24,11 +24,16 @@ public:
 	void RandomDirectionSelect();
 	UFUNCTION()
 	void SphereMovingSlowDown();
+	UFUNCTION()
+	void GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
 	ASphereEnemy_UpDown();
 	virtual void Tick(float DeltaSeconds) override;
 protected:
 	virtual void BeginPlay() override;
+
+
 
 #pragma endregion
 
@@ -51,6 +56,8 @@ private:
 	UPROPERTY()
 	bool isMovingUp{false};
 
+	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
+	int32 SpherePoints {0};
 #pragma endregion
 	
 };

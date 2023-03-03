@@ -24,6 +24,7 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
 	WeaponCurrentAmmo = WeaponMaxAmmo;
+	CurrentDashAmount = MaxDashAmount;
 	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 	SpawnWeapon();
 }
@@ -31,7 +32,6 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 void AShootSpherePlayerCharacter_Base::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void AShootSpherePlayerCharacter_Base::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -54,12 +54,10 @@ void AShootSpherePlayerCharacter_Base::CharacterMoveForward(float Value)
 {
 	AddMovementInput(GetActorForwardVector(), Value);
 }
-
 void AShootSpherePlayerCharacter_Base::CharacterMoveRight(float Value)
 {
 	AddMovementInput(GetActorRightVector(), Value);
 }
-
 void AShootSpherePlayerCharacter_Base::CharacterJump()
 {
 	Jump();
@@ -68,31 +66,46 @@ void AShootSpherePlayerCharacter_Base::CharacterJump()
 void AShootSpherePlayerCharacter_Base::CharacterDash()
 {
 	if (GetMovementComponent()->Velocity.Size()==0) return;
-	if (DashAmount>0)
+	if (CurrentDashAmount>0)
 	{
-		FTimerHandle TimerHandleTemp;
+		FTimerHandle THDash;
 		if (GetCharacterMovement()->IsFalling())
 		{
 			GetCharacterMovement()->GravityScale = 0;
 			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
-			DashAmount--;
-
+			GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
+			CurrentDashAmount--;
 		}
 		else
 		{
 			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-			GetWorldTimerManager().SetTimer(TimerHandleTemp,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
-			DashAmount--;
-
+			GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
+			CurrentDashAmount--;
 		}
 	}
 }
-
 void AShootSpherePlayerCharacter_Base::DashStop()
 {
 	GetCharacterMovement()->GravityScale = 1;
 	GetCharacterMovement()->StopMovementImmediately();
+	DashReloadCheck();
+}
+void AShootSpherePlayerCharacter_Base::DashReload()
+{
+	if (CurrentDashAmount == MaxDashAmount) return;
+	CurrentDashAmount++;
+}
+void AShootSpherePlayerCharacter_Base::DashReloadCheck()
+{
+	if (CurrentDashAmount < MaxDashAmount)
+	{
+		if (GetCharacterMovement()->GravityScale==1)
+		{
+			FTimerHandle THDashReload;
+			GetWorldTimerManager().SetTimer(THDashReload,this,&AShootSpherePlayerCharacter_Base::DashReload,
+				0.1f,false,1.0f);
+		}
+	}
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
@@ -103,7 +116,6 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 		WeaponCurrentAmmo = WeaponMaxAmmo;
 	}
 }
-
 void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 {
 	if (WeaponCurrentAmmo!=0)
@@ -113,7 +125,6 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile,WeaponDirection->GetComponentTransform(),SpawnParams);
 	}
 }
-
 void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 {
 	FActorSpawnParameters ActorSpawnParams;

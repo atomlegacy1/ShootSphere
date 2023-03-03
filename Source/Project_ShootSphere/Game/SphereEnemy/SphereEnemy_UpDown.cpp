@@ -2,11 +2,15 @@
 
 
 #include "Project_ShootSphere/Game/SphereEnemy/SphereEnemy_UpDown.h"
+#include "Project_ShootSphere/Core/GameMode/ShootSphereGameMode.h"
+#include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 
-ASphereEnemy_UpDown::ASphereEnemy_UpDown()
+ ASphereEnemy_UpDown::ASphereEnemy_UpDown()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	
+ 	SphereCollisionComponent->SetSphereRadius(100);
+ 	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
+	&ThisClass::GivePointsByOverlap);
 }
 
 void ASphereEnemy_UpDown::BeginPlay()
@@ -18,6 +22,8 @@ void ASphereEnemy_UpDown::BeginPlay()
 
 	SphereSpawnLocation = GetActorLocation();
 	RandomDirectionSelect();
+	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
+	&ThisClass::GivePointsByOverlap);
 	
 }
 void ASphereEnemy_UpDown::Tick(float DeltaSeconds)
@@ -39,7 +45,6 @@ void ASphereEnemy_UpDown::MoveSphereUpDown()
 		break;
 	}
 }
-
 void ASphereEnemy_UpDown::MoveSphereUp()
 {
 	if (isMovingUp)
@@ -53,7 +58,6 @@ void ASphereEnemy_UpDown::MoveSphereUp()
 	}
 	
 }
-
 void ASphereEnemy_UpDown::MoveSphereDown()
 {
 	if (!isMovingUp)
@@ -67,7 +71,6 @@ void ASphereEnemy_UpDown::MoveSphereDown()
 	}
 	
 }
-
 void ASphereEnemy_UpDown::RandomDirectionSelect()
 {
 	int32 RandomDirection = FMath::RandRange(0,1);
@@ -82,7 +85,7 @@ void ASphereEnemy_UpDown::RandomDirectionSelect()
 	default:;
 	}
 }
- void ASphereEnemy_UpDown::SphereMovingSlowDown()
+void ASphereEnemy_UpDown::SphereMovingSlowDown()
  {
 	 switch (isMovingUp)
 	 {
@@ -107,3 +110,14 @@ void ASphereEnemy_UpDown::RandomDirectionSelect()
 	 		break;
 	 }
  }
+
+void ASphereEnemy_UpDown::GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor==Cast<ASpherePlayerWeapon_Projectile>(OtherActor))
+	{
+		Destroy();
+		auto LevelGamemode = Cast<AShootSphereGameMode>(GetWorld()->GetAuthGameMode());
+		LevelGamemode->TotalPlayerPoints= LevelGamemode->TotalPlayerPoints + SpherePoints;
+	}
+}

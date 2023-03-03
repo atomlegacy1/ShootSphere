@@ -53,7 +53,11 @@ public:
 	void CharacterDash();
 	UFUNCTION()
 	void DashStop();
-
+	UFUNCTION()
+	void DashReload();
+	UFUNCTION()
+	void DashReloadCheck();
+	
 	UFUNCTION()
 	void CharacterWeaponReload();
 	UFUNCTION()
@@ -78,7 +82,9 @@ protected:
 	int32 WeaponMaxAmmo{30};
 	
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
-	int32 DashAmount{40};
+	int32 CurrentDashAmount{0};
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
+	int32 MaxDashAmount{5};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	float DashRange{4000};
 
