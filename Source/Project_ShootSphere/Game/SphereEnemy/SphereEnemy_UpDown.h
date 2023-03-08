@@ -57,7 +57,7 @@ private:
 	bool isMovingUp{false};
 
 	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
-	int32 SpherePoints {0};
+	int32 SpherePoints {3};
 #pragma endregion
 	
 };
