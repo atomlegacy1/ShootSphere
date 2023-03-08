@@ -21,5 +21,12 @@
 				"Editor"
 			]
 		}
+	],
+	"TargetPlatforms": [
+		"Windows",
+		"LinuxArm64",
+		"Linux",
+		"HoloLens",
+		"Mac"
 	]
 }
