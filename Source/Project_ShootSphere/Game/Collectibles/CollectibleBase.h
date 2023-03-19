@@ -5,17 +5,17 @@
 #include "CoreMinimal.h"
 #include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
-#include "ShootSphereEnemy_Base.generated.h"
+#include "CollectibleBase.generated.h"
 
 UCLASS()
-class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Base : public AActor
+class PROJECT_SHOOTSPHERE_API ACollectibleBase : public AActor
 {
 	GENERATED_BODY()
 
 #pragma region Default
 	
-public:	
-	AShootSphereEnemy_Base();
+public:
+	ACollectibleBase();
 
 #pragma endregion
 
@@ -23,12 +23,11 @@ public:
 	
 protected:
 	UPROPERTY()
-	USceneComponent* SphereRootComponent;
+	USceneComponent* RootComp;
 	UPROPERTY(EditInstanceOnly)
-	UStaticMeshComponent* SphereStaticMesh;
-	UPROPERTY()
-	USphereComponent* SphereCollisionComponent;
+	UStaticMeshComponent* StaticMeshComp;
+	UPROPERTY(EditInstanceOnly)
+	USphereComponent* CollisionComp;
 
 #pragma endregion
-	
 };

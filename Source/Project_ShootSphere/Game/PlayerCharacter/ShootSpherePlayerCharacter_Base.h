@@ -93,5 +93,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 CharacterMaxHealth{100};
 
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
+	int32 SpecialStageCoinCollected{0};
+
 #pragma endregion
 };
