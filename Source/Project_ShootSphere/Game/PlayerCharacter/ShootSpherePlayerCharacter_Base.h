@@ -80,19 +80,22 @@ protected:
 	int32 WeaponCurrentAmmo{0};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category= "Character weapon settings")
 	int32 WeaponMaxAmmo{30};
-	
+
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 CurrentDashAmount{0};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
-	int32 MaxDashAmount{5};
+	int32 MaxDashAmount{2};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
-	float DashRange{4000};
+	float DashRange{2500};
+	UPROPERTY();
+	bool isDashReady{true};
 
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 CharacterCurrentHealth{0};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 CharacterMaxHealth{100};
 
+public:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 SpecialStageCoinCollected{0};
 

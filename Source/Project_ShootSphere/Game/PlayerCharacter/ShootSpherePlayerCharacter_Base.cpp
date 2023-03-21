@@ -66,21 +66,19 @@ void AShootSpherePlayerCharacter_Base::CharacterJump()
 void AShootSpherePlayerCharacter_Base::CharacterDash()
 {
 	if (GetMovementComponent()->Velocity.Size()==0) return;
-	if (CurrentDashAmount>0)
+	if (isDashReady==true)
 	{
-		FTimerHandle THDash;
-		if (GetCharacterMovement()->IsFalling())
+		if (CurrentDashAmount>0)
 		{
-			GetCharacterMovement()->GravityScale = 0;
-			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-			GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
-			CurrentDashAmount--;
-		}
-		else
-		{
-			LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-			GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.1);
-			CurrentDashAmount--;
+			FTimerHandle THDash;
+			if (GetCharacterMovement()->IsFalling())
+			{
+				isDashReady = false;
+				GetCharacterMovement()->GravityScale = 0;
+				LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
+				GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.2f);
+				CurrentDashAmount--;
+			}
 		}
 	}
 }
@@ -89,6 +87,7 @@ void AShootSpherePlayerCharacter_Base::DashStop()
 	GetCharacterMovement()->GravityScale = 1;
 	GetCharacterMovement()->StopMovementImmediately();
 	DashReloadCheck();
+	isDashReady = true;
 }
 void AShootSpherePlayerCharacter_Base::DashReload()
 {
