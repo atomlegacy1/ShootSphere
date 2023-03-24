@@ -6,9 +6,6 @@
 #include "GameFramework/GameModeBase.h"
 #include "ShootSphereGameMode.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class PROJECT_SHOOTSPHERE_API AShootSphereGameMode : public AGameModeBase
 {

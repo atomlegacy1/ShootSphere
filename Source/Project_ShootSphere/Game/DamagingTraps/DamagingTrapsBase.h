@@ -23,11 +23,11 @@ public:
 
 protected:
 	
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly)
 	USceneComponent* RootComp;
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly)
 	UStaticMeshComponent* MeshComp;
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly)
 	UBoxComponent* CollisionComp;
 
 #pragma endregion 

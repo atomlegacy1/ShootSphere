@@ -23,6 +23,7 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
+	CharacterCurrentHealth = CharacterMaxHealth;
 	WeaponCurrentAmmo = WeaponMaxAmmo;
 	CurrentDashAmount = MaxDashAmount;
 	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
@@ -130,5 +131,18 @@ void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
 	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
 	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
+}
+
+float AShootSpherePlayerCharacter_Base::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+	AController* EventInstigator, AActor* DamageCauser)
+{
+	CharacterCurrentHealth -= DamageAmount;
+	UE_LOG(LogTemp,Warning,TEXT("Health = %f"),CharacterCurrentHealth);
+	if (CharacterCurrentHealth == 0)
+	{
+		isDead = true;
+	}
+	
+	return DamageAmount;
 }
 

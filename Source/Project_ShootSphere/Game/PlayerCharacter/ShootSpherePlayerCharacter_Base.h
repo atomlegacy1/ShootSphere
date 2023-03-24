@@ -66,6 +66,9 @@ public:
 	UFUNCTION()
 	void SpawnWeapon();
 
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+		AController* EventInstigator, AActor* DamageCauser) override;
+
 #pragma endregion
 
 #pragma region Variables
@@ -90,10 +93,13 @@ protected:
 	UPROPERTY();
 	bool isDashReady{true};
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
-	int32 CharacterCurrentHealth{0};
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
-	int32 CharacterMaxHealth{100};
+	UPROPERTY(BlueprintReadOnly,Category = "Character settings")
+	float CharacterCurrentHealth{0};
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings",meta = (ClampMin = 0))
+	float CharacterMaxHealth{100};
+	UPROPERTY(BlueprintReadOnly)
+	bool isDead{false};
+	
 
 #pragma endregion
 };
