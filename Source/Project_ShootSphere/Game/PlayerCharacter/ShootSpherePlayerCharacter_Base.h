@@ -66,8 +66,9 @@ public:
 	UFUNCTION()
 	void SpawnWeapon();
 
-	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
-		AController* EventInstigator, AActor* DamageCauser) override;
+	UFUNCTION()
+	void CharacterTakeDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 #pragma endregion
 
@@ -99,7 +100,6 @@ protected:
 	float CharacterMaxHealth{100};
 	UPROPERTY(BlueprintReadOnly)
 	bool isDead{false};
-	
 
 #pragma endregion
 };

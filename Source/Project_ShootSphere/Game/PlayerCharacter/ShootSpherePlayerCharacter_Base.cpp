@@ -48,7 +48,8 @@ void AShootSpherePlayerCharacter_Base::SetupPlayerInputComponent(UInputComponent
 	PlayerInputComponent->BindAction(TEXT("Dash"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterDash);
 	PlayerInputComponent->BindAction(TEXT("Reload"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponReload);
 	PlayerInputComponent->BindAction(TEXT("WeaponShoot"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponShoot);
-	
+
+	OnTakeAnyDamage.AddDynamic(this,&ThisClass::CharacterTakeDamage);
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterMoveForward(float Value)
@@ -133,16 +134,12 @@ void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 }
 
-float AShootSpherePlayerCharacter_Base::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
-	AController* EventInstigator, AActor* DamageCauser)
+void AShootSpherePlayerCharacter_Base::CharacterTakeDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	CharacterCurrentHealth -= DamageAmount;
-	UE_LOG(LogTemp,Warning,TEXT("Health = %f"),CharacterCurrentHealth);
 	if (CharacterCurrentHealth == 0)
 	{
 		isDead = true;
 	}
-	
-	return DamageAmount;
 }
 

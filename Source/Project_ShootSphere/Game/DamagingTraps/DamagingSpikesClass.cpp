@@ -2,13 +2,18 @@
 
 
 #include "Project_ShootSphere/Game/DamagingTraps/DamagingSpikesClass.h"
+#include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 #include "Kismet/GameplayStatics.h"
 
-float ADamagingSpikesClass::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
-	AController* EventInstigator, AActor* DamageCauser)
+
+ADamagingSpikesClass::ADamagingSpikesClass()
 {
-	
-	UGameplayStatics::ApplyDamage(PlayerCharacterToDamage.GetDefaultObject(),
-		DamageToCause,EventInstigator,this,UDamageType::StaticClass());
-	return DamageToCause;
+	CollisionComp->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::ApplyDamageByOverlap);
+}
+
+void ADamagingSpikesClass::ApplyDamageByOverlap(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	UGameplayStatics::ApplyDamage(CharacterToDamage.GetDefaultObject(),
+		DamageToCause,GetInstigatorController(),this,UDamageType::StaticClass());
 }
