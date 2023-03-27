@@ -13,6 +13,5 @@ ACollectibleBase::ACollectibleBase()
 	StaticMeshComp->SetupAttachment(RootComp);
 	CollisionComp = CreateDefaultSubobject<USphereComponent>(FName("Collectible collision"));
 	CollisionComp->SetupAttachment(RootComp);
-
 }
 

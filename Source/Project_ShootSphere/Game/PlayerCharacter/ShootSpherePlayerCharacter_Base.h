@@ -66,9 +66,6 @@ public:
 	UFUNCTION()
 	void SpawnWeapon();
 
-	UFUNCTION()
-	void CharacterTakeDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 #pragma endregion
 
@@ -100,6 +97,10 @@ protected:
 	float CharacterMaxHealth{100};
 	UPROPERTY(BlueprintReadOnly)
 	bool isDead{false};
+public:
+
+	UPROPERTY()
+	int32 SpecialCoinsCollected{0};
 
 #pragma endregion
 };
