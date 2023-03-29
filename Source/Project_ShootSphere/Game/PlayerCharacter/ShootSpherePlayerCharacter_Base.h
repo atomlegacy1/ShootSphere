@@ -66,6 +66,13 @@ public:
 	UFUNCTION()
 	void SpawnWeapon();
 
+	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+		AController* EventInstigator, AActor* DamageCauser) override;
+
+	UFUNCTION()
+	void RegisterTakeDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+		class AController* InstigatedBy, AActor* DamageCauser);
+
 
 #pragma endregion
 
@@ -82,7 +89,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category= "Character weapon settings")
 	int32 WeaponMaxAmmo{30};
 
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
+	UPROPERTY(EditDefaultsOnly,BlueprintReadOnly,Category = "Character settings")
 	int32 CurrentDashAmount{0};
 	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite,Category = "Character settings")
 	int32 MaxDashAmount{2};

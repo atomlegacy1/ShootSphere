@@ -3,6 +3,7 @@
 
 #include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 #include "Components/ArrowComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Debug/ReporterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
@@ -27,6 +28,7 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 	WeaponCurrentAmmo = WeaponMaxAmmo;
 	CurrentDashAmount = MaxDashAmount;
 	SpecialCoinsCollected = 0;
+	isDead = false;	
 	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 	SpawnWeapon();
 }
@@ -49,7 +51,8 @@ void AShootSpherePlayerCharacter_Base::SetupPlayerInputComponent(UInputComponent
 	PlayerInputComponent->BindAction(TEXT("Dash"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterDash);
 	PlayerInputComponent->BindAction(TEXT("Reload"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponReload);
 	PlayerInputComponent->BindAction(TEXT("WeaponShoot"),IE_Pressed,this,&AShootSpherePlayerCharacter_Base::CharacterWeaponShoot);
-	
+
+	OnTakeAnyDamage.AddDynamic(this,ThisClass::RegisterTakeDamage);
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterMoveForward(float Value)
@@ -132,5 +135,24 @@ void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
 	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
 	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
+}
+float AShootSpherePlayerCharacter_Base::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
+	AController* EventInstigator, AActor* DamageCauser)
+{
+	Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	return DamageAmount;
+}
+void AShootSpherePlayerCharacter_Base::RegisterTakeDamage(AActor* DamagedActor, float Damage,
+	const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
+{
+	if (!isDead)
+	{
+		CharacterCurrentHealth -= Damage;
+		if(CharacterCurrentHealth<= 0)
+		{
+			isDead = true;
+		}
+	}
 }
 

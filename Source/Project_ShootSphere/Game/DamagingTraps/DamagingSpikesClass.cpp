@@ -14,6 +14,6 @@ ADamagingSpikesClass::ADamagingSpikesClass()
 void ADamagingSpikesClass::ApplyDamageByOverlap(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UGameplayStatics::ApplyDamage(CharacterToDamage.GetDefaultObject(),
+	UGameplayStatics::ApplyDamage(SweepResult.GetActor(),
 		DamageToCause,GetInstigatorController(),this,UDamageType::StaticClass());
 }
