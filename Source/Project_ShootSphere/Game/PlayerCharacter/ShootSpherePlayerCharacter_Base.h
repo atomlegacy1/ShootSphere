@@ -66,13 +66,9 @@ public:
 	UFUNCTION()
 	void SpawnWeapon();
 
-	virtual float TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
-		AController* EventInstigator, AActor* DamageCauser) override;
-
 	UFUNCTION()
-	void RegisterTakeDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+	void CharacterTakeDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
 		class AController* InstigatedBy, AActor* DamageCauser);
-
 
 #pragma endregion
 
