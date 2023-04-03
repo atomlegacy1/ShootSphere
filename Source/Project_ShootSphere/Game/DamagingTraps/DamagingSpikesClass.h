@@ -15,12 +15,13 @@ class PROJECT_SHOOTSPHERE_API ADamagingSpikesClass : public ADamagingTrapsBase
 #pragma region Variables
 
 protected:
-	UPROPERTY(EditDefaultsOnly,Category = "SpikesSettigns")
-	TSubclassOf<AShootSpherePlayerCharacter_Base> CharacterToDamage;
 	UPROPERTY(EditDefaultsOnly,Category = "SpikesSettings", meta=(ClampMin = 0))
 	float DamageToCause{10};
-	UPROPERTY(BlueprintReadOnly)
-	bool isSpikesReady{false};
+private:
+	UPROPERTY()
+	class AActor* CharacterToDamage;
+	UPROPERTY()
+	FTimerHandle THDamageApply;
 
 #pragma endregion
 
@@ -28,9 +29,15 @@ protected:
 
 public:
 	ADamagingSpikesClass();
+	
 	UFUNCTION()
-	void ApplyDamageByOverlap(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	UFUNCTION()
+	void StopApplyDamage(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex);
+	UFUNCTION()
+	void ApplyDamageToActor();
 
 #pragma endregion 
 	

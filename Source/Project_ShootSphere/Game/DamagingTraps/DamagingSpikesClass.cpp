@@ -8,14 +8,31 @@
 
 ADamagingSpikesClass::ADamagingSpikesClass()
 {
-	CollisionComp->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::ApplyDamageByOverlap);
+	CollisionComp->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::StartApplyDamage);
+	CollisionComp->OnComponentEndOverlap.AddDynamic(this,&ThisClass::StopApplyDamage);
 }
 
-void ADamagingSpikesClass::ApplyDamageByOverlap(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
+void ADamagingSpikesClass::StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-		UGameplayStatics::ApplyDamage(OtherActor, DamageToCause,GetInstigatorController(),
-			this,UDamageType::StaticClass());
-	
+	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
+	{
+		CharacterToDamage = OtherActor;
+		GetWorldTimerManager().SetTimer(THDamageApply,this,&ThisClass::ApplyDamageToActor,2.5f,true);
+	}
 }
 
+void ADamagingSpikesClass::StopApplyDamage(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
+	{
+		GetWorldTimerManager().ClearTimer(THDamageApply);
+	}
+}
+
+void ADamagingSpikesClass::ApplyDamageToActor()
+{
+	UGameplayStatics::ApplyDamage(CharacterToDamage,DamageToCause,GetInstigatorController(),
+this,UDamageType::StaticClass());
+}
