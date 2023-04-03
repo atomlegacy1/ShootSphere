@@ -17,6 +17,8 @@ class PROJECT_SHOOTSPHERE_API ASpherePlayerWeapon_Projectile : public AActor
 	
 public:	
 	ASpherePlayerWeapon_Projectile();
+protected:
+	virtual void BeginPlay() override;
 
 #pragma endregion
 

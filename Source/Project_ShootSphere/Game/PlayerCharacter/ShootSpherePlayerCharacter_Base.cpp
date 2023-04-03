@@ -17,13 +17,14 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 	CharacterCameraComponent->SetupAttachment(CharacterSpringArm);
 	CharacterSpringArm->SetupAttachment(GetMesh());
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
-
-	OnTakeAnyDamage.AddDynamic(this,&ThisClass::CharacterTakeDamage);
+	
 }
 
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
 	Super::BeginPlay();
+	OnTakeAnyDamage.AddDynamic(this,&ThisClass::CharacterTakeDamage);
+	
 	CharacterCurrentHealth = CharacterMaxHealth;
 	WeaponCurrentAmmo = WeaponMaxAmmo;
 	CurrentDashAmount = MaxDashAmount;

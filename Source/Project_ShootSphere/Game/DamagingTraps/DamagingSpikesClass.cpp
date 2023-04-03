@@ -6,11 +6,14 @@
 #include "Kismet/GameplayStatics.h"
 
 
-ADamagingSpikesClass::ADamagingSpikesClass()
+void ADamagingSpikesClass::BeginPlay()
 {
+	Super::BeginPlay();
+	
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::StartApplyDamage);
 	CollisionComp->OnComponentEndOverlap.AddDynamic(this,&ThisClass::StopApplyDamage);
 }
+
 
 void ADamagingSpikesClass::StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

@@ -9,13 +9,14 @@
 {
 	PrimaryActorTick.bCanEverTick = true;
  	SphereCollisionComponent->SetSphereRadius(100);
- 	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
-	&ThisClass::GivePointsByOverlap);
 }
 
 void ASphereEnemy_UpDown::BeginPlay()
 {
 	Super::BeginPlay();
+
+ 	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
+	&ThisClass::GivePointsByOverlap);
 	
 	MaxMovingDistanceVector.Z=MaxMovingDistance;
 	SphereMovingRateVector.Z=SphereMovingRate;

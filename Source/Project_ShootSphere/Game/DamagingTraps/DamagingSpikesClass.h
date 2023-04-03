@@ -28,7 +28,7 @@ private:
 #pragma region Actions
 
 public:
-	ADamagingSpikesClass();
+	virtual void BeginPlay() override;
 	
 	UFUNCTION()
 	void StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,

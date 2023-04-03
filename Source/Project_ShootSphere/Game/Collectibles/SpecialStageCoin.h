@@ -14,8 +14,8 @@ class PROJECT_SHOOTSPHERE_API ASpecialStageCoin : public ACollectibleBase
 	GENERATED_BODY()
 
 #pragma region Default
-public:
-	ASpecialStageCoin();
+protected:
+	virtual void BeginPlay() override;
 
 #pragma endregion
 

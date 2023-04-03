@@ -8,13 +8,14 @@ ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	SphereCollisionComponent->SetSphereRadius(100);
-	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
-		&ThisClass::GivePointsByOverlap);
 }
 
 void ASphereEnemy_LeftRight::BeginPlay()
 {
 	Super::BeginPlay();
+
+	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
+	&ThisClass::GivePointsByOverlap);
 	
 	MaxMovingDistanceVector.Y=MaxMovingDistance;
 	SphereMovingRateVector.Y=SphereMovingRate;
