@@ -22,11 +22,11 @@ public:
 #pragma region Components
 	
 protected:
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly)
 	USceneComponent* SphereRootComponent;
 	UPROPERTY(EditInstanceOnly)
 	UStaticMeshComponent* SphereStaticMesh;
-	UPROPERTY()
+	UPROPERTY(EditInstanceOnly)
 	USphereComponent* SphereCollisionComponent;
 
 #pragma endregion

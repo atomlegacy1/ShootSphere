@@ -82,7 +82,7 @@ void AShootSpherePlayerCharacter_Base::CharacterDash()
 				isDashReady = false;
 				GetCharacterMovement()->GravityScale = 0;
 				LaunchCharacter(GetActorForwardVector() * DashRange,true,true);
-				GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,1.0f,false,0.2f);
+				GetWorldTimerManager().SetTimer(THDash,this,&AShootSpherePlayerCharacter_Base::DashStop,0.2f,false);
 				CurrentDashAmount--;
 			}
 		}
