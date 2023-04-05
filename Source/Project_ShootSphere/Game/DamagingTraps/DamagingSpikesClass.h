@@ -38,8 +38,6 @@ private:
 	UPROPERTY()
 	FVector SpikesStartLocation;
 	UPROPERTY()
-	FVector SpikesCurrentLocation;
-	UPROPERTY()
 	FVector SpikesMovingVector;
 	UPROPERTY()
 	float RangeToOut;

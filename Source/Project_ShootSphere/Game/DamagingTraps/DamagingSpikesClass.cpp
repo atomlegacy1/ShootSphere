@@ -7,6 +7,7 @@
 
 ADamagingSpikesClass::ADamagingSpikesClass()
 {
+	
 	MovingSpikesMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("MovingSpikesMesh"));
 	MovingSpikesMesh->SetupAttachment(RootComp);
 	SpikesOutCollision = CreateDefaultSubobject<UBoxComponent>(FName("SpikesOutCollision"));
@@ -17,13 +18,13 @@ void ADamagingSpikesClass::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpikesMovingRate = 2;
-	RangeToOut = 95;
-	FVector TempVector{0,RangeToOut,0};
-	SpikesMovingVector={0,SpikesMovingRate,0};
+	SpikesMovingRate = 1;
+	RangeToOut = 85;
+	FVector TempSpikesOutVector{0,0,RangeToOut};
+	SpikesMovingVector={0,0,SpikesMovingRate};
 	
 	SpikesStartLocation = MovingSpikesMesh->GetComponentLocation();
-	SpikesOutLocation = MovingSpikesMesh->GetComponentLocation() + TempVector;
+	SpikesOutLocation = MovingSpikesMesh->GetComponentLocation() + TempSpikesOutVector;
 	
 	CollisionComp->OnComponentBeginOverlap.AddDynamic(this,&ThisClass::StartApplyDamage);
 	CollisionComp->OnComponentEndOverlap.AddDynamic(this,&ThisClass::StopApplyDamage);
@@ -32,20 +33,13 @@ void ADamagingSpikesClass::BeginPlay()
 	SpikesOutCollision->OnComponentEndOverlap.AddDynamic(this,&ThisClass::MoveSpikesDown);
 }
 
-void ADamagingSpikesClass::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	SpikesCurrentLocation = MovingSpikesMesh->GetComponentLocation();
-}
-
 void ADamagingSpikesClass::StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
 	{
 		CharacterToDamage = OtherActor;
-		GetWorldTimerManager().SetTimer(THDamageApply,this,&ThisClass::ApplyDamageToActor,2.5f,true);
+		GetWorldTimerManager().SetTimer(THDamageApply,this,&ThisClass::ApplyDamageToActor,1.5f,true);
 	}
 }
 void ADamagingSpikesClass::StopApplyDamage(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
@@ -67,15 +61,7 @@ void ADamagingSpikesClass::MoveSpikesUp(UPrimitiveComponent* OverlappedComp, AAc
 	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
 	{
 		isCharacterOverlap = true;
-		if (SpikesCurrentLocation!=SpikesStartLocation)
-		{
-			MoveSpikes();
-			//GetWorldTimerManager().SetTimer(THSpikesMove,this,&ThisClass::MoveSpikes,1.0f,true);
-		}
-		else
-		{
-			GetWorldTimerManager().ClearTimer(THSpikesMove);
-		}
+		GetWorldTimerManager().SetTimer(THSpikesMove,this,&ADamagingSpikesClass::MoveSpikes,0.001f,true);
 	}
 }
 void ADamagingSpikesClass::MoveSpikesDown(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -83,25 +69,25 @@ void ADamagingSpikesClass::MoveSpikesDown(UPrimitiveComponent* OverlappedComp, A
 	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
 	{
 		isCharacterOverlap = false;
-		if (SpikesCurrentLocation!=SpikesOutLocation)
-		{
-			MoveSpikes();
-			//GetWorldTimerManager().SetTimer(THSpikesMove,this,&ThisClass::MoveSpikes,1.0f,true);
-		}
-		else
-		{
-			GetWorldTimerManager().ClearTimer(THSpikesMove);
-		}
+		GetWorldTimerManager().SetTimer(THSpikesMove,this,&ADamagingSpikesClass::MoveSpikes,0.001f,true);
 	}
 }
 void ADamagingSpikesClass::MoveSpikes()
 {
 	if (isCharacterOverlap)
 	{
-		MovingSpikesMesh->SetWorldLocation(SpikesCurrentLocation+SpikesMovingVector);
+		MovingSpikesMesh->SetWorldLocation(MovingSpikesMesh->GetComponentLocation()+SpikesMovingVector);
+		if (MovingSpikesMesh->GetComponentLocation()==SpikesOutLocation)
+		{
+			GetWorldTimerManager().ClearTimer(THSpikesMove);
+		}
 	}
 	else
 	{
-		MovingSpikesMesh->SetWorldLocation(SpikesCurrentLocation-SpikesMovingVector);
+		MovingSpikesMesh->SetWorldLocation(MovingSpikesMesh->GetComponentLocation()-SpikesMovingVector);
+		if (MovingSpikesMesh->GetComponentLocation()==SpikesStartLocation)
+		{
+			GetWorldTimerManager().ClearTimer(THSpikesMove);
+		}
 	}
 }
