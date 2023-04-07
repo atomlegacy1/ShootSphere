@@ -39,7 +39,8 @@ void ADamagingSpikesClass::StartApplyDamage(class UPrimitiveComponent* Overlappe
 	if (OtherActor == UGameplayStatics::GetPlayerCharacter(GetWorld(),0))
 	{
 		CharacterToDamage = OtherActor;
-		GetWorldTimerManager().SetTimer(THDamageApply,this,&ThisClass::ApplyDamageToActor,1.5f,true);
+		ApplyDamageToActor();
+		GetWorldTimerManager().SetTimer(THDamageApply,this,&ThisClass::ApplyDamageToActor,1.0f,true);
 	}
 }
 void ADamagingSpikesClass::StopApplyDamage(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,

@@ -50,7 +50,6 @@ private:
 
 public:
 	ADamagingSpikesClass();
-	virtual void Tick(float DeltaSeconds) override;
 	
 	UFUNCTION()
 	void StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,

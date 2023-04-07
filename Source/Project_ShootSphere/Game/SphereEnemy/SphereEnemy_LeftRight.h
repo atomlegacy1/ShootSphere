@@ -31,9 +31,6 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UFUNCTION()
-	void GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult);
 
 #pragma endregion
 
@@ -55,9 +52,6 @@ private:
 	float SphereSlowingDownLimit{1};
 	UPROPERTY()
 	bool isMovingLeft{false};
-
-	UPROPERTY(EditDefaultsOnly,Category = "Sphere Settings")
-	int32 SpherePoints {3};
 
 #pragma endregion
 	

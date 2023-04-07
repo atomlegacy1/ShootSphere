@@ -2,7 +2,6 @@
 
 
 #include "Project_ShootSphere/Game/SphereEnemy/SphereEnemy_LeftRight.h"
-#include "Project_ShootSphere/Core/GameMode/ShootSphereGameMode.h"
 
 ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 {
@@ -13,9 +12,6 @@ ASphereEnemy_LeftRight::ASphereEnemy_LeftRight()
 void ASphereEnemy_LeftRight::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
-	&ThisClass::GivePointsByOverlap);
 	
 	MaxMovingDistanceVector.Y=MaxMovingDistance;
 	SphereMovingRateVector.Y=SphereMovingRate;
@@ -108,13 +104,3 @@ void ASphereEnemy_LeftRight::SphereMovingSlowDown()
 	 }
 }
 
-void ASphereEnemy_LeftRight::GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (OtherActor==Cast<ASpherePlayerWeapon_Projectile>(OtherActor))
-	{
-		Destroy();
-		auto LevelGamemode = Cast<AShootSphereGameMode>(GetWorld()->GetAuthGameMode());
-		LevelGamemode->TotalPlayerPoints= LevelGamemode->TotalPlayerPoints + SpherePoints;
-	}
-}

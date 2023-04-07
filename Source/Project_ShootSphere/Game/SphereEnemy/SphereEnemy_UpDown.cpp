@@ -2,7 +2,6 @@
 
 
 #include "Project_ShootSphere/Game/SphereEnemy/SphereEnemy_UpDown.h"
-#include "Project_ShootSphere/Core/GameMode/ShootSphereGameMode.h"
 #include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 
  ASphereEnemy_UpDown::ASphereEnemy_UpDown()
@@ -14,17 +13,12 @@
 void ASphereEnemy_UpDown::BeginPlay()
 {
 	Super::BeginPlay();
-
- 	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
-	&ThisClass::GivePointsByOverlap);
 	
 	MaxMovingDistanceVector.Z=MaxMovingDistance;
 	SphereMovingRateVector.Z=SphereMovingRate;
 
 	SphereSpawnLocation = GetActorLocation();
 	RandomDirectionSelect();
-	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic(this,
-	&ThisClass::GivePointsByOverlap);
 	
 }
 void ASphereEnemy_UpDown::Tick(float DeltaSeconds)
@@ -111,14 +105,3 @@ void ASphereEnemy_UpDown::SphereMovingSlowDown()
 	 		break;
 	 }
  }
-
-void ASphereEnemy_UpDown::GivePointsByOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (OtherActor==Cast<ASpherePlayerWeapon_Projectile>(OtherActor))
-	{
-		Destroy();
-		auto LevelGamemode = Cast<AShootSphereGameMode>(GetWorld()->GetAuthGameMode());
-		LevelGamemode->TotalPlayerPoints= LevelGamemode->TotalPlayerPoints + SpherePoints;
-	}
-}
