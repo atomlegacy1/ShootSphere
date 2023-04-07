@@ -34,13 +34,7 @@ protected:
 #pragma endregion
 
 #pragma region Variables
-private:
-	UPROPERTY()
-	FVector MaxMovingDistanceVector{0,0,0};
-	UPROPERTY()
-	FVector SphereMovingRateVector{0,0,0};
-	UPROPERTY()
-	FVector PlatformSpawnLocation{0,0,0};
+protected:
 	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
 	float PlatformMovingRate{2};
 	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
@@ -49,6 +43,13 @@ private:
 	float PlatformSlowingDownSpeed{0.25};
 	UPROPERTY(EditAnywhere,Category = "SphereMoving Settings")
 	float PlatformSlowingDownLimit{1};
+private:
+	UPROPERTY()
+	FVector MaxMovingDistanceVector{0,0,0};
+	UPROPERTY()
+	FVector SphereMovingRateVector{0,0,0};
+	UPROPERTY()
+	FVector PlatformSpawnLocation{0,0,0};
 	UPROPERTY()
 	bool isMovingUp{false};
 

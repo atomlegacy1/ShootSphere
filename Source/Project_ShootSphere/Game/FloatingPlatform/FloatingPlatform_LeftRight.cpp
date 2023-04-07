@@ -12,8 +12,8 @@ void AFloatingPlatform_LeftRight::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	MaxMovingDistanceVector.Y=MaxMovingDistance;
-	PlatformMovingRateVector.Y=PlatformMovingRate;
+	MaxMovingDistanceVector= {0,MaxMovingDistance,0};
+	PlatformMovingRateVector= {0,PlatformMovingRate,0};
 
 	PlatformSpawnLocation = GetActorLocation();
 	RandomDirectionSelect();
