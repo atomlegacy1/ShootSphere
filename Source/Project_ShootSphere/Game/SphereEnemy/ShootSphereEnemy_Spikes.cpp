@@ -2,27 +2,27 @@
 
 
 #include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Spikes.h"
-
 #include "Kismet/GameplayStatics.h"
 
 
 AShootSphereEnemy_Spikes::AShootSphereEnemy_Spikes()
 {
 	LeftSpikesMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("SphereLeftSpikes"));
-	LeftSpikesMesh->SetupAttachment(SphereRootComponent);
+	LeftSpikesMesh->SetupAttachment(GetMesh());
 	RightSpikesMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("SphereRightSpikes"));
-	RightSpikesMesh->SetupAttachment(SphereRootComponent);
-	PlayerFinderColl = CreateDefaultSubobject<USphereComponent>(FName("SpherePlayerTrigger"));
-	PlayerFinderColl->SetupAttachment(SphereStaticMesh);
+	RightSpikesMesh->SetupAttachment(GetMesh());
+	PlayerDamageCollision = CreateDefaultSubobject<USphereComponent>(FName("SphereDamageCollision"));
+	PlayerDamageCollision->SetupAttachment(GetMesh());
+	PlayerFinderCollision->SetupAttachment(GetMesh());
 }
 
 void AShootSphereEnemy_Spikes::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SphereCollisionComponent->OnComponentBeginOverlap.AddDynamic
+	PlayerDamageCollision->OnComponentBeginOverlap.AddDynamic
 	(this,&ThisClass::AShootSphereEnemy_Spikes::StartApplyDamage);
-	SphereCollisionComponent->OnComponentEndOverlap.AddDynamic
+	PlayerDamageCollision->OnComponentEndOverlap.AddDynamic
 	(this,&ThisClass::AShootSphereEnemy_Spikes::StopApplyDamage);
 
 	NewSpikesRotation={0,0,SpikesRotationRate};

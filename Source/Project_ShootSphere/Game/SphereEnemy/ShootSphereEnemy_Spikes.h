@@ -3,13 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Base.h"
+#include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Character.h"
 #include "ShootSphereEnemy_Spikes.generated.h"
 
 
-UCLASS(HideCategories = ("Rendering","Replication","Collision","Advanced","HLOD","Physics",
-"Networking","WorldPartition","Input","Actor","Cooking","DataLayers"))
-class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Spikes : public AShootSphereEnemy_Base
+UCLASS()
+class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Spikes : public AShootSphereEnemy_Character
 {
 	GENERATED_BODY()
 
@@ -21,7 +20,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 	UStaticMeshComponent* RightSpikesMesh;
 	UPROPERTY(EditDefaultsOnly)
-	USphereComponent* PlayerFinderColl;
+	USphereComponent* PlayerDamageCollision;
 
 #pragma endregion
 
@@ -29,6 +28,9 @@ protected:
 	
 public:
 	AShootSphereEnemy_Spikes();
+	
+protected:
+	virtual void BeginPlay() override;
 	
 	UFUNCTION()
 	void StartApplyDamage(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
@@ -44,9 +46,6 @@ private:
 	void SpikesRotation();
 	UFUNCTION()
 	void StartSpikesRotation();
-
-protected:
-	virtual void BeginPlay() override;
 
 #pragma endregion
 

@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Project_ShootSphere/Game/DamagingTraps/DamagingTrapsBase.h"
-#include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 #include "DamagingSpikesClass.generated.h"
 
 UCLASS()
@@ -21,11 +20,6 @@ protected:
 	float SpikesMovingRate;
 	
 private:
-	UPROPERTY(EditDefaultsOnly)
-	UStaticMeshComponent* MovingSpikesMesh;
-	UPROPERTY(EditDefaultsOnly)
-	UBoxComponent* SpikesOutCollision;
-	
 	UPROPERTY()
 	class AActor* CharacterToDamage;
 	UPROPERTY()
@@ -57,7 +51,6 @@ public:
 	UFUNCTION()
 	void StopApplyDamage(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex);
-
 	
 	UFUNCTION()
 	void MoveSpikesUp(class UPrimitiveComponent* OverlappedComp,class AActor* OtherActor, class UPrimitiveComponent* OtherComp,
@@ -76,6 +69,15 @@ private:
 	UFUNCTION()
 	void MoveSpikes();
 
-#pragma endregion 
+#pragma endregion
+
+#pragma region Components
+private:
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* MovingSpikesMesh;
+	UPROPERTY(EditDefaultsOnly)
+	UBoxComponent* SpikesOutCollision;
+
+#pragma endregion
 	
 };
