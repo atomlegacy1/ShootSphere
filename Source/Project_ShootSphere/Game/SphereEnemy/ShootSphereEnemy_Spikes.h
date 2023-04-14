@@ -6,7 +6,6 @@
 #include "Project_ShootSphere/Game/SphereEnemy/ShootSphereEnemy_Character.h"
 #include "ShootSphereEnemy_Spikes.generated.h"
 
-
 UCLASS()
 class PROJECT_SHOOTSPHERE_API AShootSphereEnemy_Spikes : public AShootSphereEnemy_Character
 {
