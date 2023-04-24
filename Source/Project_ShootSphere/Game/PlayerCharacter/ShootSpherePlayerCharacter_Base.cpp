@@ -3,7 +3,6 @@
 
 #include "Project_ShootSphere/Game/PlayerCharacter/ShootSpherePlayerCharacter_Base.h"
 #include "Components/ArrowComponent.h"
-#include "Debug/ReporterBase.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Project_ShootSphere/Project_ShootSphereCharacter.h"
@@ -17,8 +16,9 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 	CharacterCameraComponent->SetupAttachment(CharacterSpringArm);
 	CharacterSpringArm->SetupAttachment(GetMesh());
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
-	
-}
+
+	auto SocketLoc = GetMesh()->GetSocketLocation(FName("WeaponAttach"));
+	UE_LOG(LogTemp,Warning,TEXT("X=%f,Y=%f,Z=%f"),SocketLoc.X,SocketLoc.Y,SocketLoc.Z);
 
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
@@ -31,7 +31,6 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 	SpecialCoinsCollected = 0;
 	isDead = false;	
 	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
-	SpawnWeapon();
 	
 }
 
