@@ -30,10 +30,6 @@ protected:
 #pragma region Components
 	
 protected:
-	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
-	USpringArmComponent* CharacterSpringArm;
-	UPROPERTY(EditDefaultsOnly)
-	UCameraComponent* CharacterCameraComponent;
 	UPROPERTY(EditDefaultsOnly)
 	UArrowComponent* WeaponDirection;
 

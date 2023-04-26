@@ -10,15 +10,10 @@
 AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	CharacterSpringArm = CreateDefaultSubobject<USpringArmComponent>(FName("Camera spring arm"));
-	CharacterCameraComponent = CreateDefaultSubobject<UCameraComponent>(FName("Character following camera"));
-	CharacterCameraComponent->SetupAttachment(CharacterSpringArm);
-	CharacterSpringArm->SetupAttachment(GetMesh());
+	
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
-
-	auto SocketLoc = GetMesh()->GetSocketLocation(FName("WeaponAttach"));
-	UE_LOG(LogTemp,Warning,TEXT("X=%f,Y=%f,Z=%f"),SocketLoc.X,SocketLoc.Y,SocketLoc.Z);
+	
+}
 
 void AShootSpherePlayerCharacter_Base::BeginPlay()
 {
@@ -30,8 +25,7 @@ void AShootSpherePlayerCharacter_Base::BeginPlay()
 	CurrentDashAmount = MaxDashAmount;
 	SpecialCoinsCollected = 0;
 	isDead = false;	
-	WeaponDirection->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
-	
+	SpawnWeapon();
 }
 
 void AShootSpherePlayerCharacter_Base::Tick(float DeltaTime)
@@ -135,6 +129,8 @@ void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
 	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
 	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
+	WeaponDirection->AttachToComponent
+	(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterTakeDamage(AActor* DamagedActor, float Damage,
