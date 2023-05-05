@@ -3,9 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "PlayerWeapon/SpherePlayerWeapon.h"
 #include "Project_ShootSphere/Game/PlayerCharacter/PlayerWeapon/WeaponProjectile/SpherePlayerWeapon_Projectile.h"
 #include "ShootSpherePlayerCharacter_Base.generated.h"
@@ -32,6 +30,8 @@ protected:
 protected:
 	UPROPERTY(EditDefaultsOnly)
 	UArrowComponent* WeaponDirection;
+	UPROPERTY(EditDefaultsOnly)
+	UStaticMeshComponent* WeaponBattery;
 
 #pragma endregion
 
@@ -47,24 +47,28 @@ public:
 
 	UFUNCTION()
 	void CharacterDash();
+	
+	UFUNCTION()
+	void CharacterWeaponReload();
+	UFUNCTION()
+	void CharacterWeaponShoot();
+	
+	UFUNCTION()
+	void CharacterTakeDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
+		class AController* InstigatedBy, AActor* DamageCauser);
+
+private:
+	UFUNCTION()
+	void SpawnWeapon();
+	UFUNCTION()
+	void HideBatteryAfterReload();
+
 	UFUNCTION()
 	void DashStop();
 	UFUNCTION()
 	void DashReload();
 	UFUNCTION()
 	void DashReloadCheck();
-	
-	UFUNCTION()
-	void CharacterWeaponReload();
-	UFUNCTION()
-	void CharacterWeaponShoot();
-
-	UFUNCTION()
-	void SpawnWeapon();
-
-	UFUNCTION()
-	void CharacterTakeDamage(AActor* DamagedActor, float Damage, const class UDamageType* DamageType,
-		class AController* InstigatedBy, AActor* DamageCauser);
 
 #pragma endregion
 
@@ -96,10 +100,18 @@ protected:
 	float CharacterMaxHealth{100};
 	UPROPERTY(BlueprintReadOnly)
 	bool isDead{false};
-public:
 
+	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
+	UAnimMontage* WeaponReloadMontage;
+	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
+	UAnimMontage* WeaponShootMontage;
+public:
 	UPROPERTY()
 	int32 SpecialCoinsCollected{0};
+
+private:
+	UPROPERTY()
+	bool isReloading;
 
 #pragma endregion
 };

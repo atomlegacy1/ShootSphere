@@ -12,6 +12,7 @@ AShootSpherePlayerCharacter_Base::AShootSpherePlayerCharacter_Base()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	WeaponDirection = CreateDefaultSubobject<UArrowComponent>(FName("WeaponDirection arrow component"));
+	WeaponBattery = CreateDefaultSubobject<UStaticMeshComponent>(FName("WeaponBattery component"));
 	
 }
 
@@ -110,15 +111,30 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 {
 	if (WeaponCurrentAmmo<WeaponMaxAmmo)
 	{
-		//Нужна анимация
+		if (isReloading) return;
+		isReloading = true;
+
+		FTimerHandle THBatteryHide;
+		WeaponBattery->SetHiddenInGame(false);
+		PlayAnimMontage(WeaponReloadMontage);
+		GetWorld()->GetTimerManager().SetTimer(THBatteryHide,this,
+			&AShootSpherePlayerCharacter_Base::HideBatteryAfterReload,1.1f,false);
 		WeaponCurrentAmmo = WeaponMaxAmmo;
 	}
 }
+void AShootSpherePlayerCharacter_Base::HideBatteryAfterReload()
+{
+	WeaponBattery->SetHiddenInGame(true);
+	isReloading = false;
+}
+
 void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 {
+	if (isReloading) return;
 	if (WeaponCurrentAmmo!=0)
 	{
 		WeaponCurrentAmmo--;
+		PlayAnimMontage(WeaponShootMontage);
 		FActorSpawnParameters SpawnParams;
 		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile,WeaponDirection->GetComponentTransform(),SpawnParams);
 	}
@@ -126,11 +142,15 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 void AShootSpherePlayerCharacter_Base::SpawnWeapon()
 {
 	FActorSpawnParameters ActorSpawnParams;
-	FTransform SocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
-	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,SocketLocation,ActorSpawnParams)
+	FTransform WeaponSocketLocation = GetMesh()->GetSocketTransform("WeaponAttach");
+	GetWorld()->SpawnActor<ASpherePlayerWeapon>(WeaponToSpawn,WeaponSocketLocation,ActorSpawnParams)
 	->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
 	WeaponDirection->AttachToComponent
 	(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,FName("WeaponAttach"));
+	
+	WeaponBattery->AttachToComponent(GetMesh(),FAttachmentTransformRules::SnapToTargetIncludingScale,
+		FName("WeaponBatteryAttach"));
+	WeaponBattery->SetHiddenInGame(true);
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterTakeDamage(AActor* DamagedActor, float Damage,
