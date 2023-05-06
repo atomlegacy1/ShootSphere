@@ -134,7 +134,6 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
 	if (WeaponCurrentAmmo!=0)
 	{
 		WeaponCurrentAmmo--;
-		PlayAnimMontage(WeaponShootMontage);
 		FActorSpawnParameters SpawnParams;
 		GetWorld()->SpawnActor<ASpherePlayerWeapon_Projectile>(WeaponProjectile,WeaponDirection->GetComponentTransform(),SpawnParams);
 	}

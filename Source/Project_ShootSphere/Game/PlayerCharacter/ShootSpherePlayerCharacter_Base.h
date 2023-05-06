@@ -103,8 +103,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
 	UAnimMontage* WeaponReloadMontage;
-	UPROPERTY(EditDefaultsOnly,Category = "Character weapon settings")
-	UAnimMontage* WeaponShootMontage;
 public:
 	UPROPERTY()
 	int32 SpecialCoinsCollected{0};
