@@ -78,7 +78,7 @@ void ADamagingSpikesClass::MoveSpikes()
 	if (isCharacterOverlap)
 	{
 		MovingSpikesMesh->SetWorldLocation(MovingSpikesMesh->GetComponentLocation()+SpikesMovingVector);
-		if (MovingSpikesMesh->GetComponentLocation()==SpikesOutLocation)
+		if (MovingSpikesMesh->GetComponentLocation().Z>=SpikesOutLocation.Z)
 		{
 			GetWorldTimerManager().ClearTimer(THSpikesMove);
 		}
@@ -86,7 +86,7 @@ void ADamagingSpikesClass::MoveSpikes()
 	else
 	{
 		MovingSpikesMesh->SetWorldLocation(MovingSpikesMesh->GetComponentLocation()-SpikesMovingVector);
-		if (MovingSpikesMesh->GetComponentLocation()==SpikesStartLocation)
+		if (MovingSpikesMesh->GetComponentLocation().Z<=SpikesStartLocation.Z)
 		{
 			GetWorldTimerManager().ClearTimer(THSpikesMove);
 		}
