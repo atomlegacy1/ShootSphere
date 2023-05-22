@@ -62,6 +62,8 @@ private:
 	void SpawnWeapon();
 	UFUNCTION()
 	void HideBatteryAfterReload();
+	UFUNCTION()
+	void FullAmmo();
 
 	UFUNCTION()
 	void DashStop();

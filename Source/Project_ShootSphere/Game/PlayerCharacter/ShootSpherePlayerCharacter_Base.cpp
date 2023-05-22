@@ -115,17 +115,23 @@ void AShootSpherePlayerCharacter_Base::CharacterWeaponReload()
 		isReloading = true;
 
 		FTimerHandle THBatteryHide;
+		FTimerHandle THFullAmmo;
 		WeaponBattery->SetHiddenInGame(false);
 		PlayAnimMontage(WeaponReloadMontage);
 		GetWorld()->GetTimerManager().SetTimer(THBatteryHide,this,
 			&AShootSpherePlayerCharacter_Base::HideBatteryAfterReload,1.1f,false);
-		WeaponCurrentAmmo = WeaponMaxAmmo;
+		GetWorld()->GetTimerManager().SetTimer(THFullAmmo,this,
+		&AShootSpherePlayerCharacter_Base::FullAmmo,1.1f,false);
 	}
 }
 void AShootSpherePlayerCharacter_Base::HideBatteryAfterReload()
 {
 	WeaponBattery->SetHiddenInGame(true);
 	isReloading = false;
+}
+void AShootSpherePlayerCharacter_Base::FullAmmo()
+{
+	WeaponCurrentAmmo = WeaponMaxAmmo;
 }
 
 void AShootSpherePlayerCharacter_Base::CharacterWeaponShoot()
